@@ -18,7 +18,26 @@ A link to the full data set can found here:
 https://1drv.ms/x/c/febd9e0d5722e8e5/IQD4EwFD6w0uSIxgRh7-ydFfAR8-7eoGOJK2lqX\_-5bppo4?e=U9JuC3
 
 For this assignment, the analysis will include only graduating seniors who started and their likely underclassmen backups. Including all underclassmen could introduce potential differences into the analysis, as forwards naturally incur more turnovers while defenders generally have more opportunities to record takeaways.
-
 \newpage
+## Packages
 
+```{r}
+library(tidyverse)
+```
+## Data Set
+```{r}
+soccer <- tibble(
+  name = c("Yuna Aoki","Alex Mohr", 
+           "Erica Roberts","Rosalie Olou",
+           "Carly Montgomery","Jade Bordeleau",
+           "Mary Frances Symmes", "Lilly Soltz",
+           "Mackenzie Harris", "Avery Richards",
+           "Katie Richter","Fien Leijdekker",
+           "Emily Wong","Madison Casteen"),
+  class = c("Sr","Sr","Sr","Sr","Sr","Sr","Sr",
+            "Jr","Fr","Jr","Fr","Jr","So","Fr"),
+  turnover_differential = c(3,17,-2,0,8,-8,-4,0,
+                            0,-3,-6,5,15,-2)
+)
+```
 
