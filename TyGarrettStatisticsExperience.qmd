@@ -9,11 +9,11 @@ editor: visual
 
 Gary Higgins, head coach of NC State's Women's Soccer Team, is coming off a successful season in which the team compiled a record of 11 wins, 5 losses, and 2 draws. This marks a significant improvement from the previous season's record of 5 wins, 9 losses, and 4 draws. Looking ahead, Higgins is interested in identifying areas where the team can continue to improve.
 
-In Higgins's opinion, one of the most important statistics in soccer is turnover differential. He has asked the great up-and-coming statistician Ty Garrett to conduct a two-sample t-test comparing the mean turnover differential of graduating seniors with that of underclassmen to determine whether there is statistically significant evidence that seniors have a higher mean turnover differential.
+In Higgins's opinion, one of the most important statistics in soccer is turnover differential (takeaways minus turnovers). He has asked the great up-and-coming statistician Ty Garrett to conduct a two-sample t-test comparing the mean turnover differential of graduating seniors with that of underclassmen to determine whether there is statistically significant evidence that seniors have a higher mean turnover differential.
 
 If seniors demonstrate a significantly higher mean turnover differential, the team could potentially lose valuable production through graduation. If the test does not find sufficient evidence of a difference, we cannot conclude the team will improve, but the results may suggest that graduating seniors do not have a statistically significant advantage in this particular statistic. To investigate this question, Ty Garrett manually collected data during the team's first four home games of the season. This started off as something he did for fun because he was extremely unemployed with an insignificant amount of school work to do at the time. However, he is glad that he can finally turn this data into something useful.
 
-A link to the full data set can found here:
+A link to the full data set can be found here:
 
 https://1drv.ms/x/c/febd9e0d5722e8e5/IQD4EwFD6w0uSIxgRh7-ydFfAR8-7eoGOJK2lqX\_-5bppo4?e=U9JuC3
 
@@ -48,7 +48,7 @@ soccer <- tibble(
             "Underclassmen","Underclassmen",
             "Underclassmen","Underclassmen"),
   turnover_differential = c(3,11,-2,0,8,-8,-4,0,
-                            0,-3,-6,5,9,-2)
+                            0,-3,-6,5,7,-2)
 )
 ```
 
@@ -72,19 +72,23 @@ $H_a: \mu_S > \mu_U$
 
 #### Independence
 
-Each observation represents a difference soccer player, and each player is included only once in the data set. Therefore, the observations can reasonably be treated as independent.
+Each observation represents a different soccer player, and each player is included only once in the data set. Therefore, the observations can reasonably be treated as independent.
 
 #### Normality
 
-Since the sample sizes are less than 30, we cannot apply the Central Limit Theorum. However, we can prove normality using a Q-Q Plot.
+Since the sample sizes are less than 30 (n = 7 for both groups), we cannot apply the Central Limit Theorem. However, we can assume normality using a Q-Q Plot.
 
 ```{r}
-soccer_lm <- lm(turnover_differential ~ class, data = soccer)
-
-plot(soccer_lm)
+soccer |> 
+  ggplot(
+    aes(sample = turnover_differential)
+  ) + 
+  stat_qq() + 
+  stat_qq_line() + 
+  facet_wrap(~class)
 ```
 
-The Q-Q Plot shows that the turnover differentials for seniors and underclassmen approximately follow a straight line. Therefore, the normality assumption is reasonably satisfied. 
+The Q-Q Plots shows that the turnover differentials for seniors and underclassmen approximately follow a straight line. Therefore, the normality assumption is reasonably satisfied.
 
 \newpage
 
@@ -95,6 +99,7 @@ t.test(turnover_differential ~ class,
        data = soccer,
        alternative = "greater")
 ```
+
 ## Conclusion
 
-Since we assumed $\alpha$ = 0.05 and our p-value is 0.4129, we fail to reject the null hypothesis and conclude that there is insufficint statistical evidence that seniors have a greater mean turnover differential than their underclassmen backups. 
+At a significance level of $\alpha$ = 0.05, we fail to reject the null hypothesis because our p-value (0.3749) is greater than $\alpha$. Therefore, there is insufficient statistical evidence to conclude that graduating seniors have a greater mean turnover differential than their underclassmen backups. The great and up-and-coming statistician Ty Garrett declares it likely the women's soccer team repeats their success next season.
